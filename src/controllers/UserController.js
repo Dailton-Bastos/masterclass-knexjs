@@ -3,7 +3,7 @@ const knex = require('../database');
 module.exports = {
   async index(req, res) {
     try {
-      const users = await knex('users');
+      const users = await knex('users').where('deleted_at', null);
       return res.json(users);
     } catch (error) {
       throw new Error(error);
@@ -43,6 +43,9 @@ module.exports = {
       const { id } = req.params;
 
       await knex('users').where({ id }).del();
+
+      // Soft Delete
+      await knex('users').where({ id }).update('deleted_at', new Date());
 
       return res.send();
     } catch (error) {
