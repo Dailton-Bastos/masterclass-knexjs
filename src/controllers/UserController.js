@@ -42,7 +42,7 @@ module.exports = {
     try {
       const { id } = req.params;
 
-      await knex('users').where({ id }).del();
+      // await knex('users').where({ id }).del();
 
       // Soft Delete
       await knex('users').where({ id }).update('deleted_at', new Date());
